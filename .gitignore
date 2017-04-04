@@ -48,3 +48,5 @@ Temporary Items
 *.tlog
 Debug/DV1543-L.52C1644C.tlog/link.read.1.tlog
 *.filters
+*.obj
+Debug/main.obj
