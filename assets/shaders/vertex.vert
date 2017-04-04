@@ -11,8 +11,8 @@ uniform mat4 vp;
 uniform mat4 m;
 
 void main(){
-	gl_Position = vp * m * vec4(position, 0, 1.0);
-	vPos = vec2(m * vec4(position, 0, 1.0));
+	gl_Position = vp * m * vec4(position.x, position.y, 0, 1.0);
+	vPos = vec2(m * vec4(position, 0, 1.0)).xy;
 	vColor = color;
 	vUV = UV;
 }
