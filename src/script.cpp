@@ -5,6 +5,7 @@ Script::Script() {
 	// Creates a lua_State object ready to make lua calls.
 	_lState = luaL_newstate();
 	luaL_openlibs(_lState);
+	lua_close;
 }
 
 //std::string scriptSource = "";

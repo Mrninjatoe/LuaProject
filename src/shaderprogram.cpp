@@ -37,6 +37,11 @@ ShaderProgram::ShaderProgram(const std::string &vertex, const std::string &fragm
 	_compileShaders(sourceCodes);
 }
 
+ShaderProgram::~ShaderProgram(){
+	glUseProgram(0);
+	glDeleteProgram(_shaderProgram);
+}
+
 void ShaderProgram::_compileShaders(std::vector<std::string> &sourceCodes) {
 	GLint result = GL_FALSE;
 	int infoLogLength = 0;
@@ -75,6 +80,12 @@ void ShaderProgram::_linkProgram() {
 	glAttachShader(_shaderProgram, _shaders[1]);
 	glLinkProgram(_shaderProgram);
 
+	glDetachShader(_shaderProgram, _shaders[0]);
+	glDetachShader(_shaderProgram, _shaders[1]);
+
+	glDeleteShader(_shaders[0]);
+	glDeleteShader(_shaders[1]);
+
 	GLint result = GL_FALSE;
 	int infoLogLength = 0;
 	glGetProgramiv(_shaderProgram, GL_LINK_STATUS, &result);
@@ -84,12 +95,6 @@ void ShaderProgram::_linkProgram() {
 		glGetProgramInfoLog(_shaderProgram, infoLogLength, NULL, &programErrorMsg[0]);
 		printf("%s\n", &programErrorMsg[0]);
 	}
-
-	glDetachShader(_shaderProgram, _shaders[0]);
-	glDetachShader(_shaderProgram, _shaders[1]);
-	
-	glDeleteShader(_shaders[0]);
-	glDeleteShader(_shaders[1]);
 }
 
 ShaderProgram& ShaderProgram::bindShader() {
@@ -101,5 +106,11 @@ ShaderProgram& ShaderProgram::bindShader() {
 ShaderProgram& ShaderProgram::addUniform(const std::string& name, glm::mat4& matrix) {
 	GLint loc = glGetUniformLocation(_shaderProgram, name.c_str());
 	glUniformMatrix4fv(loc, 1, false, &matrix[0][0]);
+	return *this;
+}
+
+ShaderProgram& ShaderProgram::addUniform(const std::string& name, float& inFloat) {
+	GLint loc = glGetUniformLocation(_shaderProgram, name.c_str());
+	glUniform1f(loc, inFloat);
 	return *this;
 }
