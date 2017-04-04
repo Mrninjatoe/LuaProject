@@ -7,5 +7,6 @@ NPCScript::NPCScript(const std::string &scriptName){
 }
 
 int NPCScript::l_addNPC() {
+
 	return 0;
 }

@@ -6,13 +6,13 @@
 
 class Player : public Entity {
 public:
+	Player(glm::vec3 pos);
 	Player();
 	virtual ~Player() {};
-	virtual void update();
-	virtual void _fixBuffers();
-	virtual void _fixVertAttributes();
+	virtual void update(float delta);
 	virtual glm::mat4 getModel() const;
+	virtual void move(glm::vec3 dir);
 private:
-	std::shared_ptr<Texture> _texture;
 	int _hp;
+	glm::vec3 _pos;
 };

@@ -11,10 +11,12 @@
 #include "shaderprogram.hpp"
 #include "script.hpp"
 #include "entitymanager.hpp"
+#include "leveleditor.hpp"
 
 class Engine {
 public:
 	Engine();
+	virtual ~Engine() {};
 	void _init();
 	void _initVariables();
 	void _initSDL();
@@ -50,14 +52,17 @@ private:
 
 	bool _quit;
 	bool _vsync;
+	bool _editorMode;
 
 	SDL_Event _event;
 	SDL_GLContext _gContext;
-
 	SDL_Window* _gMainWindow;
-	std::shared_ptr<ShaderProgram> _normalShader;
-	std::shared_ptr<EntityManager> _characterManager;
 
+	std::shared_ptr<ShaderProgram>	_normalShader;
+	std::shared_ptr<EntityManager>	_characterManager;
+	std::shared_ptr<LevelEditor>	_levelEditor;
+
+	std::vector<std::shared_ptr<Room>> _rooms;
 	glm::mat4 _view;
 	glm::mat4 _projection;
 };

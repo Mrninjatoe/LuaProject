@@ -1,8 +1,8 @@
 #include "engine.hpp"
 #include <SDL2\SDL_image.h>
 
-// Each room has a orthographic view with the size of -10 to 10 in x and y direction
-// Each Environment block represents a single digit in this space.
+// Each room has a orthographic view with the size of -15 to 15 in x and y direction
+// Each block represents two digits in this space.
 // Player and NPC to be decided...
 
 Engine::Engine(){
@@ -11,20 +11,67 @@ Engine::Engine(){
 }
 
 void Engine::_run() {
+	Uint64 NOW = SDL_GetPerformanceCounter();
+	UINT64 LAST = 0;
+	float deltaTime = 0;
+
 	while (!_quit) {
+		LAST = NOW;
+		NOW = SDL_GetPerformanceCounter();
+		deltaTime = (float)((NOW - LAST) * 1000 / SDL_GetPerformanceCounter());
 		SDL_GL_SwapWindow(_gMainWindow);
 		while (SDL_PollEvent(&_event)) {
-			if (_event.type == SDL_QUIT)
+			switch (_event.type)
+			{
+			case SDL_QUIT:
 				_quit = true;
+				break;
+			case SDL_KEYDOWN:
+				switch (_event.key.keysym.scancode)
+				{
+				case SDL_SCANCODE_LEFT:
+					_characterManager->moveEntity(LEFT);
+					break;
+				case SDL_SCANCODE_RIGHT:
+					_characterManager->moveEntity(RIGHT);
+					break;
+				case SDL_SCANCODE_UP:
+					_characterManager->moveEntity(UP);
+					break;
+				case SDL_SCANCODE_DOWN:
+					_characterManager->moveEntity(DOWN);
+					break;
+				case SDL_SCANCODE_1:
+					if (_editorMode)
+						_editorMode = false;
+					else
+						_editorMode = true;
+					break;
+				default:
+					break;
+				}
+			default:
+				break;
+			}
 		}
 
 		// Clear screen.
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		// Update and Render.
-		_characterManager->_updateEntities();
-		_normalShader->bindShader();
-		_characterManager->_renderEntities(_normalShader);
+		if(!_editorMode) {
+			// Update and Render.
+			for (std::shared_ptr<Room> currRoom : _rooms) {
+				_characterManager->_updateEntities(currRoom, deltaTime);
+				_normalShader->bindShader();
+				_characterManager->_renderEntities(_normalShader);
+			}
+		}
+		else {
+			_levelEditor->update(deltaTime);
+			
+
+		}
 	}
+	SDL_Quit();
 }
 
 void Engine::_init() {
@@ -39,9 +86,10 @@ void Engine::_init() {
 void Engine::_initVariables() {
 	_vsync = true;
 	_quit = false;
+	_editorMode = false;
 
-	_width = 512;
-	_height = 512;
+	_width	= 880;
+	_height	= 880;
 
 	glm::vec3 eye(0, 0, -1);
 	glm::vec3 center(eye + glm::vec3(0));
@@ -52,6 +100,7 @@ void Engine::_initVariables() {
 
 void Engine::_initWorld() {
 	_characterManager = std::make_shared<EntityManager>();
+	_rooms.push_back(std::make_shared<Room>());
 }
 
 void Engine::_initShaders() {
