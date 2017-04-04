@@ -130,25 +130,29 @@
     <ClCompile Include="src\engine.cpp" />
     <ClCompile Include="src\entity.cpp" />
     <ClCompile Include="src\entitymanager.cpp" />
-    <ClCompile Include="src\environment.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\leveleditor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\npcscript.cpp" />
     <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\room.cpp" />
     <ClCompile Include="src\script.cpp" />
     <ClCompile Include="src\shaderprogram.cpp" />
     <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="src\tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine.hpp" />
     <ClInclude Include="src\entity.hpp" />
     <ClInclude Include="src\entitymanager.hpp" />
-    <ClInclude Include="src\environment.hpp" />
+    <ClInclude Include="src\leveleditor.hpp" />
     <ClInclude Include="src\npcscript.hpp" />
     <ClInclude Include="src\player.hpp" />
+    <ClInclude Include="src\room.hpp" />
     <ClInclude Include="src\script.hpp" />
     <ClInclude Include="src\shaderprogram.hpp" />
     <ClInclude Include="src\texture.hpp" />
+    <ClInclude Include="src\tile.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
