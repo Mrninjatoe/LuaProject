@@ -14,8 +14,11 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+Debug/
+
 # Windows shortcuts
 *.lnk
+*.vs
 
 # =========================
 # Operating System Files
@@ -46,6 +49,3 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.tlog
-Debug/DV1543-L.52C1644C.tlog/link.read.1.tlog
-*.filters
-Debug/main.obj
