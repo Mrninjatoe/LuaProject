@@ -23,19 +23,11 @@ Tile::Tile(SDL_Renderer* renderer, const std::string& filePath, bool collidable,
 }
 
 Tile::~Tile() {
-	delete[] source;
-	delete[] destination;
-}
 
-void Tile::move(float x, float y) {
-	posX += x;
-	posY += y;
-	destination->x = posX;
-	destination->y = posY;
 }
 
 void Tile::update(float deltaTime) {
-	//move(25 * deltaTime);
+
 }
 
 void Tile::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {

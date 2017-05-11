@@ -12,33 +12,7 @@ Engine::~Engine() {
 int Engine::run() {
 	_init();
 	uint32_t lastTime = SDL_GetTicks();
-
-
 	while (!_quit) {
-		while (SDL_PollEvent(&_event)) {
-			switch (_event.type)
-			{
-			case SDL_QUIT:
-				_quit = true;
-				break;
-			case SDL_KEYDOWN:
-				switch (_event.key.keysym.scancode)
-				{
-				case SDL_SCANCODE_LEFT:
-					break;
-				case SDL_SCANCODE_RIGHT:
-					break;
-				case SDL_SCANCODE_UP:
-					break;
-				case SDL_SCANCODE_DOWN:
-					break;
-				default:
-					break;
-				}
-			default:
-				break;
-			}
-		}
 		uint32_t curTime = SDL_GetTicks();
 		float delta = (curTime - lastTime) / 1000.0f;
 		lastTime = curTime;
@@ -71,8 +45,8 @@ void Engine::_initVariables() {
 	_vsync = true;
 	_quit = false;
 
-	_width	= 850;
-	_height	= 850;
+	_width	= 640;
+	_height	= 640;
 }
 
 void Engine::_initWorld() {

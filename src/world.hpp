@@ -3,6 +3,7 @@
 #include <vector>
 #include "entity.hpp"
 #include "tile.hpp"
+#include "player.hpp"
 
 class World {
 public:

@@ -15,6 +15,7 @@ public:
 	Engine(Engine const&) = delete;
 	void operator=(Engine const&) = delete;
 	SDL_Renderer* getRenderer() { return _gRenderer; }
+	void setQuit(bool quit) { _quit = quit; }
 	int run();
 
 private:
@@ -34,7 +35,6 @@ private:
 	bool _vsync;
 	std::shared_ptr<World> _world;
 
-	SDL_Event _event;
 	SDL_Window* _gWindow;
 	SDL_Renderer* _gRenderer;
 };
