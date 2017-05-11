@@ -5,20 +5,16 @@
 // Each block represents two digits in this space.
 // Player and NPC to be decided...
 
-Engine::Engine(){
-	_init();
-	_run();
+Engine::~Engine() {
+	
 }
 
-void Engine::_run() {
-	Uint64 NOW = SDL_GetPerformanceCounter();
-	Uint64 LAST = 0;
-	float deltaTime = 0;
+int Engine::run() {
+	_init();
+	uint32_t lastTime = SDL_GetTicks();
+
 
 	while (!_quit) {
-		LAST = NOW;
-		NOW = SDL_GetPerformanceCounter();
-		deltaTime = (float)((NOW - LAST) * 1000 / SDL_GetPerformanceCounter());
 		while (SDL_PollEvent(&_event)) {
 			switch (_event.type)
 			{
@@ -43,11 +39,25 @@ void Engine::_run() {
 				break;
 			}
 		}
+		uint32_t curTime = SDL_GetTicks();
+		float delta = (curTime - lastTime) / 1000.0f;
+		lastTime = curTime;
 
 		SDL_RenderClear(_gRenderer);
-		//SDL_RenderCopy(gRender, gTexture, NULL, NULL);
+		_world->update(delta);
+		//SDL_RenderCopy(_gRenderer, gTexture, NULL, NULL);
+		_world->drawEntities(_gRenderer);
 		SDL_RenderPresent(_gRenderer);
 	}
+	_quitProgram();
+	return 0;
+}
+
+void Engine::_quitProgram() {
+	SDL_DestroyRenderer(_gRenderer);
+	SDL_DestroyWindow(_gWindow);
+
+	IMG_Quit();
 	SDL_Quit();
 }
 
@@ -66,7 +76,7 @@ void Engine::_initVariables() {
 }
 
 void Engine::_initWorld() {
-
+	_world = std::make_shared<World>();
 }
 
 void Engine::_initSDL() {
@@ -75,8 +85,8 @@ void Engine::_initSDL() {
 	else {
 		_gWindow = SDL_CreateWindow(
 			"LuaProject",
-			SDL_WINDOWPOS_CENTERED,
-			SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_UNDEFINED,
+			SDL_WINDOWPOS_UNDEFINED,
 			_width,
 			_height,
 			SDL_WINDOW_SHOWN
