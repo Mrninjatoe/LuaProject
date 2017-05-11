@@ -130,6 +130,7 @@
     <ClCompile Include="src\engine.cpp" />
     <ClCompile Include="src\entity.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\room.cpp" />
     <ClCompile Include="src\tile.cpp" />
     <ClCompile Include="src\world.cpp" />
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="src\engine.hpp" />
     <ClInclude Include="src\entity.hpp" />
+    <ClInclude Include="src\player.hpp" />
     <ClInclude Include="src\room.hpp" />
     <ClInclude Include="src\tile.hpp" />
     <ClInclude Include="src\world.hpp" />

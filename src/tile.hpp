@@ -5,7 +5,7 @@
 class Tile : public Entity{
 public:
 	Tile();
-	Tile(SDL_Renderer* renderer, const std::string& filePath, bool collidable);
+	Tile(SDL_Renderer* renderer, const std::string& filePath, bool collidable, int size, int x, int y);
 	virtual ~Tile();
 	virtual void loadTexture(SDL_Renderer* renderer, const std::string& filePath);
 	virtual void move(float x = 0, float y = 0);

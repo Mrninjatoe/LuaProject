@@ -4,21 +4,21 @@ Tile::Tile() {
 	_collidable = false;
 }
 
-Tile::Tile(SDL_Renderer* renderer, const std::string& filePath, bool collidable) {
+Tile::Tile(SDL_Renderer* renderer, const std::string& filePath, bool collidable, int size, int x, int y) {
 	_collidable = collidable;
-	posX = 25;
-	posY = 25;
+	posX = x;
+	posY = y;
 	source = new SDL_Rect();
 	source->x = 0;
 	source->y = 0;
-	source->h = 25;
-	source->w = 25;
+	source->h = size;
+	source->w = size;
 
 	destination = new SDL_Rect();
 	destination->x = posX;
 	destination->y = posY;
-	destination->h = 25;
-	destination->w = 25;
+	destination->h = size;
+	destination->w = size;
 	loadTexture(renderer, filePath);
 }
 
@@ -35,7 +35,7 @@ void Tile::move(float x, float y) {
 }
 
 void Tile::update(float deltaTime) {
-	move(25 * deltaTime);
+	//move(25 * deltaTime);
 }
 
 void Tile::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {

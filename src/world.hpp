@@ -11,5 +11,7 @@ public:
 	void update(float delta);
 	void drawEntities(SDL_Renderer* renderer);
 private:
+	void _createWorld();
 	std::vector<std::shared_ptr<Entity>> _entities;
+	std::vector<std::shared_ptr<Entity>> _world;
 };

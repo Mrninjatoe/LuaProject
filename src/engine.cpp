@@ -71,8 +71,8 @@ void Engine::_initVariables() {
 	_vsync = true;
 	_quit = false;
 
-	_width	= 880;
-	_height	= 880;
+	_width	= 850;
+	_height	= 850;
 }
 
 void Engine::_initWorld() {
