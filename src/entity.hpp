@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include "script.hpp"
 
 class Entity {
 public:
@@ -17,6 +18,7 @@ protected:
 	SDL_Rect* source;
 	SDL_Rect* destination;
 	float posX, posY;
+	Script script;
 private:
 
 };

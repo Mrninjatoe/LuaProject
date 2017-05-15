@@ -6,8 +6,9 @@ Player::Player() {
 
 Player::Player(SDL_Renderer* renderer, const std::string& filePath, int size, int x, int y) {
 	_inputs = std::make_shared<PlayerInput>();
-	posX = x;
-	posY = y;
+	script.doFile("assets/scripts/player_physics.lua").openLibs();
+	script.getGlobal("posX").pop(posX)
+		.getGlobal("posY").pop(posY);
 	source = new SDL_Rect();
 	source->x = 0;
 	source->y = 0;

@@ -11,6 +11,7 @@ Entity::~Entity() {
 }
 
 void Entity::move(float x, float y) {
+
 	posX += x;
 	posY += y;
 	destination->x = posX;
