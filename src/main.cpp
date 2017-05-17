@@ -11,8 +11,7 @@
 #define MEMORY_DEBUG()
 #endif
 
-
-int main() {
+int main(int argc, char** argv) {
 	MEMORY_DEBUG();
 	return Engine::getInstance().run();
 }
