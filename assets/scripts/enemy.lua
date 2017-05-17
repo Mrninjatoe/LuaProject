@@ -36,7 +36,6 @@ function moveTowardsPlayer(playerX, playerY)
 	dirY = dirY * 32
 	print(dirX, dirY)
 	if(doesCollide(posX, posY, dirX, dirY) == false) then
-		print("no collision here boss!")
 		posX, posY = move(dirX, dirY, userdata)
 	end
 end
