@@ -20,7 +20,25 @@ function onCollision()
 end
 
 function moveTowardsPlayer(playerX, playerY)
-	move(-32, -32, userdata)
+	dirX = (playerX - posX)
+	dirY = (playerY - posY)
+	if(dirX < 0) then
+		dirX = dirX / (dirX * -1)
+	elseif(dirX > 0) then
+		dirX = dirX / dirX
+	end
+	if(dirY < 0) then
+		dirY = dirY / (dirY * -1)
+	elseif(dirY > 0) then
+		dirY = dirY / dirY
+	end
+	dirX = dirX * 32
+	dirY = dirY * 32
+	print(dirX, dirY)
+	if(doesCollide(posX, posY, dirX, dirY) == false) then
+		print("no collision here boss!")
+		posX, posY = move(dirX, dirY, userdata)
+	end
 end
 
 function canAttack(x, y)
@@ -28,6 +46,7 @@ function canAttack(x, y)
 	local tempY = posY - y
 	distance = math.sqrt(tempX^2 + tempY^2)
 	if(distance <= attackRange) then
+		cooldown = 2
 		return true
 	else
 		return false

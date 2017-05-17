@@ -35,14 +35,16 @@ void Enemy::update(float deltaTime) {
 	script.getGlobal("update").push(deltaTime).call(1, 0);
 }
 
-int Enemy::move(lua_State* lua) {
+int Enemy::lua_move(lua_State* lua) {
 	Enemy* temp = (Enemy*)(lua_touserdata(lua, 3));
 	temp->destination->x += lua_tonumber(lua, 1);
 	temp->destination->y += lua_tonumber(lua, 2);
-	return 0;
+	temp->script.push(temp->destination->x);
+	temp->script.push(temp->destination->y);
+	return 2;
 }
 
-int Enemy::getPlayerPos(lua_State* lua) {
+int Enemy::lua_getPlayerPos(lua_State* lua) {
 	auto player = Engine::getInstance().getWorld()->getPlayer();
 	lua_pushnumber(lua, player->getX());
 	lua_pushnumber(lua, player->getY());
@@ -50,8 +52,8 @@ int Enemy::getPlayerPos(lua_State* lua) {
 }
 
 void Enemy::registerLuaFuncs() {
-	lua_register(script.getState(), "move", move);
-	lua_register(script.getState(), "getPlayerPos", getPlayerPos);
+	lua_register(script.getState(), "move", lua_move);
+	lua_register(script.getState(), "getPlayerPos", lua_getPlayerPos);
 }
 
 void Enemy::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {

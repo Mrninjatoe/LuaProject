@@ -20,7 +20,7 @@ function onCollision()
 end
 
 function doesCollide(oldX, oldY, moveX, moveY)
-	positions = lua_getEntitiesAround(oldX, oldY)
+	positions = getEntitiesAround(oldX, oldY)
 	local newX = oldX + moveX
 	local newY = oldY + moveY
 	i = 0

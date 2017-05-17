@@ -3,7 +3,7 @@
 #include "engine.hpp"
 
 Entity::Entity() {
-	lua_register(script.getState(), "lua_getEntitiesAround", lua_getEntitiesAround);
+	lua_register(script.getState(), "getEntitiesAround", lua_getEntitiesAround);
 }
 
 Entity::~Entity() {
