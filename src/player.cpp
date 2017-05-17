@@ -39,6 +39,10 @@ void Player::move(float x, float y) {
 		.pop(destination->y).pop(destination->x);
 }
 
+void Player::attack() {
+	
+}
+
 void Player::registerLuaFuncs() {
 
 }

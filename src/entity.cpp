@@ -30,7 +30,7 @@ int Entity::lua_getEntitiesAround(lua_State* lua) {
 			float tempX = x - tile->destination->x;
 			float tempY = y - tile->destination->y;
 			float distance = sqrt(pow(tempX, 2) + pow(tempY, 2));
-			if (tile->getCollidable() && distance <= 32) {
+			if (tile->getCollidable() && distance <= 46) {
 				lua_pushnumber(lua, i);
 				lua_pushnumber(lua, tile->destination->x);
 				lua_settable(lua, -3);
@@ -38,6 +38,7 @@ int Entity::lua_getEntitiesAround(lua_State* lua) {
 				lua_pushnumber(lua, i);
 				lua_pushnumber(lua, tile->destination->y);
 				lua_settable(lua, -3);
+				i++;
 			}
 		}
 	}
@@ -47,7 +48,7 @@ int Entity::lua_getEntitiesAround(lua_State* lua) {
 			float tempX = x - enemy->destination->x;
 			float tempY = y - enemy->destination->y;
 			float distance = sqrt(pow(tempX, 2) + pow(tempY, 2));
-			if (distance <= 32) {
+			if (distance <= 46) {
 				lua_pushnumber(lua, i);
 				lua_pushnumber(lua, enemy->destination->x);
 				lua_settable(lua, -3);
@@ -55,6 +56,7 @@ int Entity::lua_getEntitiesAround(lua_State* lua) {
 				lua_pushnumber(lua, i);
 				lua_pushnumber(lua, enemy->destination->y);
 				lua_settable(lua, -3);
+				i++;
 			}
 		}
 	}

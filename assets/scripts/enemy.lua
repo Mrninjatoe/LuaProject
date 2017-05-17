@@ -44,7 +44,7 @@ function canAttack(x, y)
 	local tempX = posX - x
 	local tempY = posY - y
 	distance = math.sqrt(tempX^2 + tempY^2)
-	if(distance <= attackRange) then
+	if(distance <= attackRange and cooldown <= 0) then
 		cooldown = 2
 		return true
 	else
@@ -67,6 +67,7 @@ function doesCollide(oldX, oldY, moveX, moveY)
 	local newY = oldY + moveY
 	i = 0
 	while(positions[i] ~= nil) do
+		print(positions[i], positions[i + 1])
 		if(positions[i] == newX and positions[i + 1] == newY) then
 			return true
 		end

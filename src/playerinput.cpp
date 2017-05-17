@@ -31,6 +31,9 @@ void PlayerInput::update(Entity* player, float deltaTime) {
 			case SDL_SCANCODE_DOWN:
 				static_cast<Player*>(player)->move(0, 32);
 				break;
+			case SDL_SCANCODE_F:
+				static_cast<Player*>(player)->attack();
+				break;
 			default:
 				break;
 			}
