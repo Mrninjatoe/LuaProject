@@ -5,9 +5,11 @@ Tile::Tile() {
 }
 
 Tile::Tile(SDL_Renderer* renderer, const std::string& filePath, bool collidable, int size, int x, int y) {
+	script.doFile("assets/scripts/tile.lua").openLibs();
+	script.push(x).setGlobal("posX");
+	script.push(y).setGlobal("posY");
 	_collidable = collidable;
-	posX = x;
-	posY = y;
+
 	source = new SDL_Rect();
 	source->x = 0;
 	source->y = 0;
@@ -15,11 +17,12 @@ Tile::Tile(SDL_Renderer* renderer, const std::string& filePath, bool collidable,
 	source->w = size;
 
 	destination = new SDL_Rect();
-	destination->x = posX;
-	destination->y = posY;
+	script.getGlobal("posX").pop(destination->x);
+	script.getGlobal("posY").pop(destination->y);
 	destination->h = size;
 	destination->w = size;
 	loadTexture(renderer, filePath);
+	registerLuaFuncs();
 }
 
 Tile::~Tile() {
@@ -28,6 +31,10 @@ Tile::~Tile() {
 
 void Tile::update(float deltaTime) {
 
+}
+
+void Tile::registerLuaFuncs() {
+	
 }
 
 void Tile::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {

@@ -10,14 +10,17 @@ public:
 	virtual ~Entity();
 	virtual void loadTexture(SDL_Renderer* renderer, const std::string& filePath) = 0;
 	virtual void update(float deltaTime) = 0;
-
-	virtual void move(float x, float y);
+	virtual void registerLuaFuncs() = 0;
 	void draw(SDL_Renderer* renderer);
+	const float getX() { return destination->x; }
+	const float getY() { return destination->y; }
+	void setPosition(const float x, const float y) { destination->x = x, destination->y = y; }
+	// Lua functions for all entities
+	static int lua_getEntitiesAround(lua_State* getEntities);
 protected:
 	SDL_Texture* texture;
 	SDL_Rect* source;
 	SDL_Rect* destination;
-	float posX, posY;
 	Script script;
 private:
 

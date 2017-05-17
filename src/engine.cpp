@@ -1,5 +1,5 @@
 #include "engine.hpp"
-#include <SDL2\SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 // Each room has a orthographic view with the size of -15 to 15 in x and y direction
 // Each block represents two digits in this space.
@@ -19,7 +19,6 @@ int Engine::run() {
 
 		SDL_RenderClear(_gRenderer);
 		_world->update(delta);
-		//SDL_RenderCopy(_gRenderer, gTexture, NULL, NULL);
 		_world->drawEntities(_gRenderer);
 		SDL_RenderPresent(_gRenderer);
 	}

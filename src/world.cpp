@@ -30,13 +30,22 @@ void World::drawEntities(SDL_Renderer* renderer) {
 void World::_createWorld() {
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 20; j++) {
-			_world.push_back(std::make_shared<Tile>(Engine::getInstance().getRenderer(), 
-				"assets/textures/dirt_block_outline.png", 
-				false,
-				32, i * 32, j * 32));
+			if(j % 5 == 0 && i % 5 == 0)
+				_world.push_back(std::make_shared<Tile>(Engine::getInstance().getRenderer(),
+					"assets/textures/stone_block_outline.png",
+					true,
+					32, i * 32, j * 32));
+			else
+				_world.push_back(std::make_shared<Tile>(Engine::getInstance().getRenderer(), 
+					"assets/textures/dirt_block_outline.png", 
+					false,
+					32, i * 32, j * 32));
 		}
 	}
 	_entities.push_back(std::make_shared<Player>(Engine::getInstance().getRenderer(),
 		"assets/textures/player.png",
 		32, 32 * 10, 32 * 10));
+	_entities.push_back(std::make_shared<Enemy>(Engine::getInstance().getRenderer(),
+		"assets/textures/enemy.png",
+		32, 32 * 10, 32 * 16));
 }

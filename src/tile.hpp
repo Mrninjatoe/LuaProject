@@ -8,6 +8,8 @@ public:
 	virtual ~Tile();
 	virtual void loadTexture(SDL_Renderer* renderer, const std::string& filePath);
 	virtual void update(float deltaTime);
+	virtual void registerLuaFuncs();
+	bool getCollidable() const { return _collidable; }
 private:
 	bool _collidable;
 };

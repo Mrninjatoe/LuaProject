@@ -1,3 +1,0 @@
-addBlock()
-addBlock()
-addBlock()

@@ -28,14 +28,24 @@ Script& Script::setGlobal(const std::string& name) {
 	return *this;
 }
 
+Script& Script::setField(const std::string& name, int index) {
+	lua_setfield(_state, index, name.c_str());
+	return *this;
+}
+
 Script& Script::pop() {
 	lua_pop(_state, 1);
-
 	return *this;
 }
 
 Script& Script::pop(float& n) {
 	n = (float)lua_tonumber(_state, -1);
+	lua_pop(_state, 1);
+	return *this;
+}
+
+Script& Script::pop(int& n) {
+	n = lua_tointeger(_state, -1);
 	lua_pop(_state, 1);
 	return *this;
 }
@@ -51,7 +61,28 @@ Script& Script::push(float n) {
 	return *this;
 }
 
+Script& Script::push(int n) {
+	lua_pushnumber(_state, n);
+	return *this;
+}
+
 Script& Script::push(bool condition) {
 	lua_pushboolean(_state, condition);
+	return *this;
+}
+
+Script& Script::push(void* userdata) {
+	lua_pushlightuserdata(_state, userdata);
+	return *this;
+}
+
+Script& Script::call(int nrOfArgs, int nrOfReturns) {
+	lua_call(_state, nrOfArgs, nrOfReturns);
+	return *this;
+}
+
+Script& Script::clearStack() {
+	int n = lua_gettop(_state);
+	lua_pop(_state, n);
 	return *this;
 }

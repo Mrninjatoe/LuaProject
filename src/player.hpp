@@ -10,6 +10,8 @@ public:
 	virtual ~Player();
 	virtual void loadTexture(SDL_Renderer* renderer, const std::string& filePath);
 	virtual void update(float deltaTime);
+	virtual void registerLuaFuncs();
+	virtual void move(float x, float y);
 private:
 	std::shared_ptr<PlayerInput> _inputs;
 };

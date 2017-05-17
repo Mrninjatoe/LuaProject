@@ -6,9 +6,7 @@ Player::Player() {
 
 Player::Player(SDL_Renderer* renderer, const std::string& filePath, int size, int x, int y) {
 	_inputs = std::make_shared<PlayerInput>();
-	script.doFile("assets/scripts/player_physics.lua").openLibs();
-	script.getGlobal("posX").pop(posX)
-		.getGlobal("posY").pop(posY);
+
 	source = new SDL_Rect();
 	source->x = 0;
 	source->y = 0;
@@ -16,11 +14,15 @@ Player::Player(SDL_Renderer* renderer, const std::string& filePath, int size, in
 	source->w = size;
 
 	destination = new SDL_Rect();
-	destination->x = posX;
-	destination->y = posY;
 	destination->h = size;
 	destination->w = size;
+	
+	script.doFile("assets/scripts/player.lua").openLibs();
+	script.getGlobal("posX").pop(destination->x)
+		.getGlobal("posY").pop(destination->y);
+	
 	loadTexture(renderer, filePath);
+	registerLuaFuncs();
 }
 
 Player::~Player() {
@@ -28,7 +30,17 @@ Player::~Player() {
 }
 
 void Player::update(float deltaTime) {
+	script.getGlobal("update").push(deltaTime).call(1, 0);
 	_inputs->update(this, deltaTime);
+}
+
+void Player::move(float x, float y) {
+	script.getGlobal("move").push(x).push(y).call(2, 2)
+		.pop(destination->y).pop(destination->x);
+}
+
+void Player::registerLuaFuncs() {
+
 }
 
 void Player::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {

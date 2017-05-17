@@ -15,6 +15,7 @@ public:
 	Engine(Engine const&) = delete;
 	void operator=(Engine const&) = delete;
 	SDL_Renderer* getRenderer() { return _gRenderer; }
+	std::shared_ptr<World> getWorld() { return _world; }
 	void setQuit(bool quit) { _quit = quit; }
 	int run();
 
