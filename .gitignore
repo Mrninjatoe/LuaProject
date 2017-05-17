@@ -51,3 +51,12 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.tlog
+
+
+# Stuff
+.ninja_*
+*.ninja
+compile_commands.json
+/luaproject
+objs/
+.reggae

@@ -1,6 +1,7 @@
 #include "entity.hpp"
 #include "tile.hpp"
 #include "engine.hpp"
+#include <cmath>
 
 Entity::Entity() {
 	lua_register(script.getState(), "getEntitiesAround", lua_getEntitiesAround);

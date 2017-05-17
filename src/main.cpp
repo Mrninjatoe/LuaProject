@@ -1,11 +1,18 @@
 #include <stdio.h>
 #include "engine.hpp"
-#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
+#include <SDL2/SDL.h>
+
+#ifdef WIN32
+#define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
-#undef main
+#define MEMORY_DEBUG() _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF)
+#else
+#define MEMORY_DEBUG()
+#endif
+
 
 int main() {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	MEMORY_DEBUG();
 	return Engine::getInstance().run();
 }
