@@ -6,7 +6,14 @@ Player::Player() {
 
 Player::Player(SDL_Renderer* renderer, const std::string& filePath, int size, int x, int y) {
 	_inputs = std::make_shared<PlayerInput>();
-
+	script.doFile("assets/scripts/player.lua").openLibs();
+	script.push(x).setGlobal("posX")
+		.push(y).setGlobal("posY");
+	script.push(this).setGlobal("userdata");
+	
+	posX = x;
+	posY = y;
+	
 	source = new SDL_Rect();
 	source->x = 0;
 	source->y = 0;
@@ -17,10 +24,8 @@ Player::Player(SDL_Renderer* renderer, const std::string& filePath, int size, in
 	destination->h = size;
 	destination->w = size;
 	
-	script.doFile("assets/scripts/player.lua").openLibs();
-	script.getGlobal("posX").pop(destination->x)
-		.getGlobal("posY").pop(destination->y);
-	
+	destination->x = x;
+	destination->y = y;
 	loadTexture(renderer, filePath);
 	registerLuaFuncs();
 }
@@ -30,21 +35,34 @@ Player::~Player() {
 }
 
 void Player::update(float deltaTime) {
-	script.getGlobal("update").push(deltaTime).call(1, 0);
 	_inputs->update(this, deltaTime);
+	script.getGlobal("update").push(deltaTime).call(1, 0);
 }
 
-void Player::move(float x, float y) {
-	script.getGlobal("move").push(x).push(y).call(2, 2)
-		.pop(destination->y).pop(destination->x);
+int Player::lua_move(lua_State* lua) {
+	Player* temp = (Player*)(lua_touserdata(lua, 3));
+	//printf("%i, %i", temp->destination->x, temp->destination->y);
+	temp->posX = lua_tonumber(lua, 1);
+	temp->posY = lua_tonumber(lua, 2);
+	temp->script.push(temp->posX);
+	temp->script.push(temp->posY);
+	temp->_inputs->setKeyPressed(PlayerInput::PlayerPressed::nothing);
+	return 2;
 }
 
 void Player::attack() {
 	
 }
 
-void Player::registerLuaFuncs() {
+int Player::lua_getInputs(lua_State* lua) {
+	Player* temp = (Player*)(lua_touserdata(lua, 1));
+	lua_pushnumber(lua, temp->_inputs->getInput());
+	return 1;
+}
 
+void Player::registerLuaFuncs() {
+	lua_register(script.getState(), "getInputs", lua_getInputs);
+	lua_register(script.getState(), "move", lua_move);
 }
 
 void Player::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {

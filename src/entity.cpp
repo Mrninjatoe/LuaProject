@@ -13,15 +13,17 @@ Entity::~Entity() {
 }
 
 void Entity::draw(SDL_Renderer* renderer) {
+	destination->x = (int)posX;
+	destination->y = (int)posY;
 	SDL_RenderCopy(renderer, texture, source, destination);
 }
 
 int Entity::lua_getEntitiesAround(lua_State* lua) {
-	int n = lua_gettop(lua);
 	auto world = Engine::getInstance().getWorld()->getWorld();
 	auto entities = Engine::getInstance().getWorld()->getEntities();
 	float x = lua_tonumber(lua, 1);
 	float y = lua_tonumber(lua, 2);
+	auto self = (Entity*)lua_touserdata(lua, 3);
 	lua_createtable(lua, 0, 16);
 	int i = 0;
 	for (std::shared_ptr<Entity> entity : world) {
@@ -44,7 +46,7 @@ int Entity::lua_getEntitiesAround(lua_State* lua) {
 	}
 	for (std::shared_ptr<Entity> entity : entities) {
 		auto enemy = std::dynamic_pointer_cast<Enemy>(entity);
-		if (enemy != nullptr) {
+		if (enemy != nullptr && entity.get() != self) {
 			float tempX = x - enemy->destination->x;
 			float tempY = y - enemy->destination->y;
 			float distance = sqrt(pow(tempX, 2) + pow(tempY, 2));

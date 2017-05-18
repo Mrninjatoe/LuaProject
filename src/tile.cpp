@@ -9,7 +9,8 @@ Tile::Tile(SDL_Renderer* renderer, const std::string& filePath, bool collidable,
 	script.push(x).setGlobal("posX");
 	script.push(y).setGlobal("posY");
 	_collidable = collidable;
-
+	posX = x;
+	posY = y;
 	source = new SDL_Rect();
 	source->x = 0;
 	source->y = 0;

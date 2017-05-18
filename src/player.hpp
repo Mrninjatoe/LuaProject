@@ -11,7 +11,8 @@ public:
 	virtual void loadTexture(SDL_Renderer* renderer, const std::string& filePath);
 	virtual void update(float deltaTime);
 	virtual void registerLuaFuncs();
-	virtual void move(float x, float y);
+	static int lua_move(lua_State* lua);
+	static int lua_getInputs(lua_State* lua);
 	void attack();
 private:
 	std::shared_ptr<PlayerInput> _inputs;

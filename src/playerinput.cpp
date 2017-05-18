@@ -20,19 +20,19 @@ void PlayerInput::update(Entity* player, float deltaTime) {
 		case SDL_KEYDOWN:
 			switch (_event.key.keysym.scancode) {
 			case SDL_SCANCODE_LEFT:
-				static_cast<Player*>(player)->move(-32, 0);
+				key = left;
 				break;
 			case SDL_SCANCODE_RIGHT:
-				static_cast<Player*>(player)->move(32, 0);
+				key = right;
 				break;
 			case SDL_SCANCODE_UP:
-				static_cast<Player*>(player)->move(0, -32);
+				key = up;
 				break;
 			case SDL_SCANCODE_DOWN:
-				static_cast<Player*>(player)->move(0, 32);
+				key = down;
 				break;
 			case SDL_SCANCODE_F:
-				static_cast<Player*>(player)->attack();
+				key = shoot;
 				break;
 			default:
 				break;

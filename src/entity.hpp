@@ -16,12 +16,14 @@ public:
 	const float getY() { return destination->y; }
 	void setPosition(const float x, const float y) { destination->x = x, destination->y = y; }
 	// Lua functions for all entities
-	static int lua_getEntitiesAround(lua_State* getEntities);
+	static int lua_getEntitiesAround(lua_State* lua);
 protected:
 	SDL_Texture* texture;
 	SDL_Rect* source;
 	SDL_Rect* destination;
 	Script script;
+	float posX;
+	float posY;
 private:
 
 };

@@ -10,7 +10,8 @@ Enemy::Enemy(SDL_Renderer* renderer, const std::string& filePath, int size, int 
 	script.push(x).setGlobal("posX");
 	script.push(y).setGlobal("posY");
 	script.push(this).setGlobal("userdata");
-
+	posX = x;
+	posY = y;
 	source = new SDL_Rect();
 	source->x = 0;
 	source->y = 0;
@@ -33,14 +34,15 @@ Enemy::~Enemy() {
 
 void Enemy::update(float deltaTime) {
 	script.getGlobal("update").push(deltaTime).call(1, 0);
+	//printf("%f, %f\n", destination->x, destination->y);
 }
 
 int Enemy::lua_move(lua_State* lua) {
 	Enemy* temp = (Enemy*)(lua_touserdata(lua, 3));
-	temp->destination->x += lua_tonumber(lua, 1);
-	temp->destination->y += lua_tonumber(lua, 2);
-	temp->script.push(temp->destination->x);
-	temp->script.push(temp->destination->y);
+	temp->posX = (float)lua_tonumber(lua, 1);
+	temp->posY = (float)lua_tonumber(lua, 2);
+	temp->script.push(temp->posX);
+	temp->script.push(temp->posY);
 	return 2;
 }
 
