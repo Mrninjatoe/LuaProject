@@ -19,6 +19,7 @@ public:
 		health -= dmg;
 		script.push(health).setGlobal("health");
 	}
+	const bool isDead() { return dead; }
 	// Lua functions for all entities
 	static int lua_getEntitiesAround(lua_State* lua);
 	static int lua_makeDead(lua_State* lua);
@@ -32,5 +33,5 @@ protected:
 	float health;
 	float damage;
 private:
-
+	bool dead;
 };

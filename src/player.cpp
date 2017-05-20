@@ -1,5 +1,6 @@
 #include "player.hpp"
 #include "engine.hpp"
+#include <cmath>
 
 Player::Player() {
 

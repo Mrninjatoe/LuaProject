@@ -6,6 +6,7 @@
 Entity::Entity() {
 	lua_register(script.getState(), "getEntitiesAround", lua_getEntitiesAround);
 	lua_register(script.getState(), "makeDead", lua_makeDead);
+	dead = false;
 }
 
 Entity::~Entity() {
@@ -19,7 +20,7 @@ void Entity::draw(SDL_Renderer* renderer) {
 
 int Entity::lua_makeDead(lua_State* lua) {
 	auto entity = (Entity*)lua_touserdata(lua, 1);
-	Engine::getInstance().getWorld()->removeEntity(entity);
+	entity->dead = true;
 	return 0;
 }
 
