@@ -1,18 +1,22 @@
 posX = 0
 posY = 0
 vel = 32
-attackRange = 24
+health = 2
+damage = 1
+attackRange = 32
 cooldown = 2
 userdata = nil
+inAttackRange = false
 prevDirX = 0
 prevDirY = 0
 
 function update(delta)
 	local playerX, playerY = getPlayerPos()
 	if(canAttack(playerX, playerY)) then
-		print("attacking player")
+		attackPlayer(userdata)
+	elseif(inAttackRange == false) then
+		moveTowardsPlayer(playerX, playerY, delta)
 	end
-	moveTowardsPlayer(playerX, playerY, delta)
 	cooldown = cooldown - 1 * delta
 end
 
@@ -21,8 +25,8 @@ function onCollision()
 end
 
 function moveTowardsPlayer(playerX, playerY, delta)
-	dirX = (playerX - posX)
-	dirY = (playerY - posY)
+	local dirX = (playerX - posX)
+	local dirY = (playerY - posY)
 	if(dirX < 0) then
 		dirX = dirX / (dirX * -1)
 	elseif(dirX > 0) then
@@ -53,15 +57,21 @@ function canAttack(x, y)
 	local tempX = posX - x
 	local tempY = posY - y
 	distance = math.sqrt(tempX^2 + tempY^2)
-	if(distance <= attackRange and cooldown <= 0) then
-		--return true
+	if(distance <= attackRange) then
+		inAttackRange = true
+		if(cooldown <= 0) then
+			cooldown = 2
+			return true
+		else
+			return false
+		end
 	else
-		return false
+		inAttackRange = false
 	end
 end
 
 function doesCollide(oldX, oldY, moveX, moveY)
-	positions = getEntitiesAround(oldX, oldY, userdata)
+	local positions = getEntitiesAround(oldX, oldY, userdata)
 	i = 0
 	while(positions[i] ~= nil) do
 		if(moveX < positions[i] + 32 and moveX + 32 > positions[i]

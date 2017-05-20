@@ -4,11 +4,18 @@ vel = 3200
 userdata = nil
 moveReset = 0.05
 moveCooldown = 0
+attackRange = 42
+health = 0
+damage = 0
+prevDirX = 0
+prevDirY = 0
 
 function update(delta)
+	if(health <= 0) then
+		makeDead(userdata)
+	end
 	buttonPressed = getInputs(userdata)
 	keyResponse(buttonPressed, delta)
-	moveCooldown = moveCooldown - 1 * delta
 end
 
 function keyResponse(buttonPressed, delta)
@@ -16,18 +23,26 @@ function keyResponse(buttonPressed, delta)
 	local newY = posY
 	if(buttonPressed == 1) then
 		newX = posX - vel * delta
+		prevDirX = -1
+		prevDirY = 0
 		tryMove(newX, newY)
 	elseif(buttonPressed == 2) then
 		newX = posX + vel * delta
+		prevDirX = 1
+		prevDirY = 0
 		tryMove(newX, posY)
 	elseif(buttonPressed == 3) then
 		newY = posY - vel * delta
+		prevDirY = -1
+		prevDirX = 0
 		tryMove(newX, newY)
 	elseif(buttonPressed == 4) then
 		newY = posY + vel * delta
+		prevDirY = 1
+		prevDirX = 0
 		tryMove(newX, newY)
 	elseif(buttonPressed == 5) then
-		--attack()
+		attack(userdata, prevDirX, prevDirY, attackRange)
 	end
 end
 

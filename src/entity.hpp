@@ -15,8 +15,13 @@ public:
 	const float getX() { return destination->x; }
 	const float getY() { return destination->y; }
 	void setPosition(const float x, const float y) { destination->x = x, destination->y = y; }
+	void takeDamage(float dmg) { 
+		health -= dmg; 
+		script.push(health).setGlobal("health");
+	}
 	// Lua functions for all entities
 	static int lua_getEntitiesAround(lua_State* lua);
+	static int lua_makeDead(lua_State* lua);
 protected:
 	SDL_Texture* texture;
 	SDL_Rect* source;
@@ -24,6 +29,8 @@ protected:
 	Script script;
 	float posX;
 	float posY;
+	float health;
+	float damage;
 private:
 
 };

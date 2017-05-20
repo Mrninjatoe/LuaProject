@@ -5,11 +5,17 @@ Enemy::Enemy() {
 
 }
 
-Enemy::Enemy(SDL_Renderer* renderer, const std::string& filePath, int size, int x, int y) {
+Enemy::Enemy(SDL_Renderer* renderer, const std::string& filePath, int size, int x, int y, float hp, float dmg) {
 	script.doFile("assets/scripts/enemy.lua").openLibs();
 	script.push(x).setGlobal("posX");
 	script.push(y).setGlobal("posY");
 	script.push(this).setGlobal("userdata");
+	// should probably have hp and damage as input but i'm too lazy atm.
+	script.push(hp).setGlobal("health")
+		.push(dmg).setGlobal("damage");
+	health = hp;
+	damage = dmg;
+
 	posX = x;
 	posY = y;
 	source = new SDL_Rect();
@@ -46,6 +52,13 @@ int Enemy::lua_move(lua_State* lua) {
 	return 2;
 }
 
+int Enemy::lua_attackPlayer(lua_State* lua) {
+	auto player = Engine::getInstance().getWorld()->getPlayer();
+	auto me = (Enemy*)lua_touserdata(lua, 1);
+	player->takeDamage(me->damage);
+	return 0;
+}
+
 int Enemy::lua_getPlayerPos(lua_State* lua) {
 	auto player = Engine::getInstance().getWorld()->getPlayer();
 	lua_pushnumber(lua, player->getX());
@@ -56,6 +69,7 @@ int Enemy::lua_getPlayerPos(lua_State* lua) {
 void Enemy::registerLuaFuncs() {
 	lua_register(script.getState(), "move", lua_move);
 	lua_register(script.getState(), "getPlayerPos", lua_getPlayerPos);
+	lua_register(script.getState(), "attackPlayer", lua_attackPlayer);
 }
 
 void Enemy::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {

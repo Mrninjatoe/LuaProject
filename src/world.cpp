@@ -44,8 +44,8 @@ void World::_createWorld() {
 	}
 	_entities.push_back(std::make_shared<Player>(Engine::getInstance().getRenderer(),
 		"assets/textures/player.png",
-		32, 32 * 2, 32 * 1));
+		32, 32 * 2, 32 * 1, 5, 2));
 	_entities.push_back(std::make_shared<Enemy>(Engine::getInstance().getRenderer(),
 		"assets/textures/enemy.png",
-		32, 32 * 10, 32 * 16));
+		32, 32 * 10, 32 * 16, 2, 1));
 }

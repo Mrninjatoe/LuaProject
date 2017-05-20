@@ -1,18 +1,23 @@
 #include "player.hpp"
+#include "engine.hpp"
 
 Player::Player() {
 	
 }
 
-Player::Player(SDL_Renderer* renderer, const std::string& filePath, int size, int x, int y) {
+Player::Player(SDL_Renderer* renderer, const std::string& filePath, int size, int x, int y, float hp, float dmg) {
 	_inputs = std::make_shared<PlayerInput>();
 	script.doFile("assets/scripts/player.lua").openLibs();
 	script.push(x).setGlobal("posX")
 		.push(y).setGlobal("posY");
 	script.push(this).setGlobal("userdata");
+	script.push(hp).setGlobal("health")
+		.push(dmg).setGlobal("damage");
 	
 	posX = x;
 	posY = y;
+	health = hp;
+	damage = dmg;
 	
 	source = new SDL_Rect();
 	source->x = 0;
@@ -41,7 +46,6 @@ void Player::update(float deltaTime) {
 
 int Player::lua_move(lua_State* lua) {
 	Player* temp = (Player*)(lua_touserdata(lua, 3));
-	//printf("%i, %i", temp->destination->x, temp->destination->y);
 	temp->posX = lua_tonumber(lua, 1);
 	temp->posY = lua_tonumber(lua, 2);
 	temp->script.push(temp->posX);
@@ -50,8 +54,16 @@ int Player::lua_move(lua_State* lua) {
 	return 2;
 }
 
-void Player::attack() {
-	
+int Player::lua_attack(lua_State* lua) {
+	auto me = (Player*)lua_touserdata(lua, 1);
+	auto x = (float)lua_tonumber(lua, 2);
+	auto y = (float)lua_tonumber(lua, 3);
+	auto range = (float)lua_tonumber(lua, 4);
+	for (std::shared_ptr<Entity> entity : Engine::getInstance().getWorld()->getEntities()) {
+
+	}
+
+	return 0;
 }
 
 int Player::lua_getInputs(lua_State* lua) {
@@ -63,6 +75,7 @@ int Player::lua_getInputs(lua_State* lua) {
 void Player::registerLuaFuncs() {
 	lua_register(script.getState(), "getInputs", lua_getInputs);
 	lua_register(script.getState(), "move", lua_move);
+	lua_register(script.getState(), "attack", lua_attack);
 }
 
 void Player::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {
