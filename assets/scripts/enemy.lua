@@ -21,35 +21,31 @@ function update(delta)
 end
 
 function onCollision()
-	
+
 end
 
 function moveTowardsPlayer(playerX, playerY, delta)
 	local dirX = (playerX - posX)
 	local dirY = (playerY - posY)
 	if(dirX < 0) then
-		dirX = dirX / (dirX * -1)
+		dirX = -1
 	elseif(dirX > 0) then
-		dirX = dirX / dirX
+		dirX = 1
 	end
 	if(dirY < 0) then
-		dirY = dirY / (dirY * -1)
+		dirY = -1
 	elseif(dirY > 0) then
-		dirY = dirY / dirY
+		dirY = 1
 	end
+
 	local newPosX = posX + dirX * vel * delta
+	if (not doesCollide(posX, posY, newPosX, posY)) then
+		posX, posY = move(newPosX, posY, userdata)
+	end
+
 	local newPosY = posY + dirY * vel * delta
-	if(doesCollide(posX, posY, newPosX, newPosY) == false) then
-		posX, posY = move(newPosX, newPosY, userdata)
-		
-	elseif(doesCollide(posX, posY, newPosX + 1, newPosY) == false) then
-		posX, posY = move(newPosX + 1, newPosY, userdata)
-		
-	elseif(doesCollide(posX, posY, newPosX, newPosY + 1) == false) then
-		posX, posY = move(newPosX, newPosY + 1, userdata)
-	
-	elseif(doesCollide(posX, posY, newPosX + 1, newPosY + 1) == false) then
-		posX, posY = move(newPosX + 1, newPosY + 1, userdata)
+	if (not doesCollide(posX, posY, posX, newPosY)) then
+		posX, posY = move(posX, newPosY, userdata)
 	end
 end
 

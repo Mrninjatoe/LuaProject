@@ -11,17 +11,16 @@ Tile::Tile(SDL_Renderer* renderer, const std::string& filePath, bool collidable,
 	_collidable = collidable;
 	posX = x;
 	posY = y;
-	source = new SDL_Rect();
-	source->x = 0;
-	source->y = 0;
-	source->h = size;
-	source->w = size;
 
-	destination = new SDL_Rect();
-	script.getGlobal("posX").pop(destination->x);
-	script.getGlobal("posY").pop(destination->y);
-	destination->h = size;
-	destination->w = size;
+	source.x = 0;
+	source.y = 0;
+	source.h = size;
+	source.w = size;
+
+	script.getGlobal("posX").pop(destination.x);
+	script.getGlobal("posY").pop(destination.y);
+	destination.h = size;
+	destination.w = size;
 	loadTexture(renderer, filePath);
 	registerLuaFuncs();
 }
@@ -35,7 +34,7 @@ void Tile::update(float deltaTime) {
 }
 
 void Tile::registerLuaFuncs() {
-	
+
 }
 
 void Tile::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {

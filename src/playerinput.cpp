@@ -2,43 +2,36 @@
 #include "engine.hpp"
 
 PlayerInput::PlayerInput() {
-	
+
 }
 
 PlayerInput::~PlayerInput() {
-	
+
 }
 
 void PlayerInput::update(Entity* player, float deltaTime) {
-	while (SDL_PollEvent(&_event)) {
-		switch (_event.type)
-		{
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
 		// This quit is a hack.
 		case SDL_QUIT:
 			Engine::getInstance().setQuit(true);
 			break;
-		case SDL_KEYDOWN:
-			switch (_event.key.keysym.scancode) {
-			case SDL_SCANCODE_LEFT:
-				key = left;
-				break;
-			case SDL_SCANCODE_RIGHT:
-				key = right;
-				break;
-			case SDL_SCANCODE_UP:
-				key = up;
-				break;
-			case SDL_SCANCODE_DOWN:
-				key = down;
-				break;
-			case SDL_SCANCODE_F:
-				key = shoot;
-				break;
-			default:
-				break;
-			}
 		default:
 			break;
 		}
 	}
+
+	const Uint8* keyMap = SDL_GetKeyboardState(NULL);
+	keys = 0;
+	if (keyMap[SDL_SCANCODE_A] || keyMap[SDL_SCANCODE_LEFT])
+		keys |= Keys::left;
+	if (keyMap[SDL_SCANCODE_D] || keyMap[SDL_SCANCODE_RIGHT])
+		keys |= Keys::right;
+	if (keyMap[SDL_SCANCODE_W] || keyMap[SDL_SCANCODE_UP])
+		keys |= Keys::up;
+	if (keyMap[SDL_SCANCODE_S] || keyMap[SDL_SCANCODE_DOWN])
+		keys |= Keys::down;
+	if (keyMap[SDL_SCANCODE_F])
+		keys |= Keys::shoot;
 }

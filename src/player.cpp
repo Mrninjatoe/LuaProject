@@ -2,7 +2,7 @@
 #include "engine.hpp"
 
 Player::Player() {
-	
+
 }
 
 Player::Player(SDL_Renderer* renderer, const std::string& filePath, int size, int x, int y, float hp, float dmg) {
@@ -13,30 +13,28 @@ Player::Player(SDL_Renderer* renderer, const std::string& filePath, int size, in
 	script.push(this).setGlobal("userdata");
 	script.push(hp).setGlobal("health")
 		.push(dmg).setGlobal("damage");
-	
+
 	posX = x;
 	posY = y;
 	health = hp;
 	damage = dmg;
-	
-	source = new SDL_Rect();
-	source->x = 0;
-	source->y = 0;
-	source->h = size;
-	source->w = size;
 
-	destination = new SDL_Rect();
-	destination->h = size;
-	destination->w = size;
-	
-	destination->x = x;
-	destination->y = y;
+	source.x = 0;
+	source.y = 0;
+	source.h = size;
+	source.w = size;
+
+	destination.h = size;
+	destination.w = size;
+
+	destination.x = x;
+	destination.y = y;
 	loadTexture(renderer, filePath);
 	registerLuaFuncs();
 }
 
 Player::~Player() {
-	
+
 }
 
 void Player::update(float deltaTime) {
@@ -50,7 +48,6 @@ int Player::lua_move(lua_State* lua) {
 	temp->posY = lua_tonumber(lua, 2);
 	temp->script.push(temp->posX);
 	temp->script.push(temp->posY);
-	temp->_inputs->setKeyPressed(PlayerInput::PlayerPressed::nothing);
 	return 2;
 }
 

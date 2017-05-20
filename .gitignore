@@ -63,3 +63,4 @@ compile_commands.json
 /luaproject
 objs/
 .reggae
+.vscode/

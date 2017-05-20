@@ -1,5 +1,8 @@
 #include "script.hpp"
 
+#include <cstdio>
+#include <cstdlib>
+
 Script::Script() {
 	_state = luaL_newstate();
 }
@@ -76,8 +79,22 @@ Script& Script::push(void* userdata) {
 	return *this;
 }
 
+// http://stackoverflow.com/a/30022216
+
+int Script::_lua_errorHandler(lua_State* lua) {
+	//luaL_traceback(_state,)
+	fprintf(stderr, "[%p] error running function `f': %s\n", lua, lua_tostring(lua, -1));
+	exit(-1);
+	return 0;
+}
+
 Script& Script::call(int nrOfArgs, int nrOfReturns) {
-	lua_call(_state, nrOfArgs, nrOfReturns);
+	int hpos = lua_gettop(_state) - nrOfArgs;
+	int ret = 0;
+	lua_pushcfunction(_state, &_lua_errorHandler);
+	lua_insert(_state, hpos);
+	ret = lua_pcall(_state, nrOfArgs, nrOfReturns, hpos);
+	lua_remove(_state, hpos);
 	return *this;
 }
 

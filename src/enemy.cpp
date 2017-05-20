@@ -18,17 +18,15 @@ Enemy::Enemy(SDL_Renderer* renderer, const std::string& filePath, int size, int 
 
 	posX = x;
 	posY = y;
-	source = new SDL_Rect();
-	source->x = 0;
-	source->y = 0;
-	source->h = size;
-	source->w = size;
+	source.x = 0;
+	source.y = 0;
+	source.h = size;
+	source.w = size;
 
-	destination = new SDL_Rect();
-	destination->h = size;
-	destination->w = size;
-	script.getGlobal("posX").pop(destination->x)
-		.getGlobal("posY").pop(destination->y);
+	destination.h = size;
+	destination.w = size;
+	script.getGlobal("posX").pop(destination.x)
+		.getGlobal("posY").pop(destination.y);
 
 	loadTexture(renderer, filePath);
 	registerLuaFuncs();
@@ -40,7 +38,7 @@ Enemy::~Enemy() {
 
 void Enemy::update(float deltaTime) {
 	script.getGlobal("update").push(deltaTime).call(1, 0);
-	//printf("%f, %f\n", destination->x, destination->y);
+	//printf("%f, %f\n", destination.x, destination.y);
 }
 
 int Enemy::lua_move(lua_State* lua) {

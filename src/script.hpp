@@ -27,4 +27,6 @@ public:
 	lua_State* getState() { return _state; }
 private:
 	lua_State* _state;
+
+	static int _lua_errorHandler(lua_State* lua);
 };
