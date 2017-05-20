@@ -1,5 +1,6 @@
 #include "world.hpp"
 #include "engine.hpp"
+#include <algorithm>
 
 World::World() {
 	_createWorld();
@@ -25,6 +26,17 @@ void World::drawEntities(SDL_Renderer* renderer) {
 	for (std::shared_ptr<Entity> entity : _entities) {
 		entity->draw(renderer);
 	}
+}
+
+void World::removeEntity(Entity* inEntity) {
+	_entities.erase(std::remove_if(_entities.begin(), _entities.end(),
+		[&](const std::shared_ptr<Entity>& e) -> bool {
+			if(e.get() == inEntity)
+				return true;
+			else
+				return false;
+		}),
+		_entities.end());
 }
 
 void World::_createWorld() {

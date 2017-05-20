@@ -53,11 +53,21 @@ int Player::lua_move(lua_State* lua) {
 
 int Player::lua_attack(lua_State* lua) {
 	auto me = (Player*)lua_touserdata(lua, 1);
-	auto x = (float)lua_tonumber(lua, 2);
-	auto y = (float)lua_tonumber(lua, 3);
+	auto dirX = (float)lua_tonumber(lua, 2);
+	auto dirY = (float)lua_tonumber(lua, 3);
 	auto range = (float)lua_tonumber(lua, 4);
 	for (std::shared_ptr<Entity> entity : Engine::getInstance().getWorld()->getEntities()) {
-
+		if (entity.get() == me)
+			continue;
+		auto enemy = std::dynamic_pointer_cast<Enemy>(entity);
+		if (enemy != nullptr) {
+			auto tempX = me->getX() - enemy->getX();
+			auto tempY = me->getY() - enemy->getY();
+			float distance = sqrt(pow(tempX, 2) + pow(tempY, 2));
+			if (distance <= range) {
+				enemy->takeDamage(me->damage);
+			}
+		}
 	}
 
 	return 0;

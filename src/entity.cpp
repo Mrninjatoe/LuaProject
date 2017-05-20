@@ -18,8 +18,8 @@ void Entity::draw(SDL_Renderer* renderer) {
 }
 
 int Entity::lua_makeDead(lua_State* lua) {
-	auto entity = lua_touserdata(lua, 1);
-	//remove entity from world @ Engine::getInstance().removeEntity(). Or something...
+	auto entity = (Entity*)lua_touserdata(lua, 1);
+	Engine::getInstance().getWorld()->removeEntity(entity);
 	return 0;
 }
 

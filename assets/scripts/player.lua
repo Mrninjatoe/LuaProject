@@ -2,14 +2,11 @@ posX = 0
 posY = 0
 vel = 64
 userdata = nil
-moveReset = 0.05
-moveCooldown = 0
+moveReset = 1
+attackCooldown = 0
 attackRange = 42
 health = 0
 damage = 0
-prevDirX = 0
-prevDirY = 0
-
 
 function band(a, b)
 	return a & b
@@ -21,42 +18,42 @@ function update(delta)
 	end
 	buttonPressed = getInputs(userdata)
 	keyResponse(buttonPressed, delta)
+	attackCooldown = attackCooldown - 1 * delta
 end
 
 function keyResponse(buttonBitMap, delta)
 	local newX = posX
 	local newY = posY
-
+	local prevDirX = 0
+	local prevDirY = 0
+	
 	if(band(buttonBitMap, 1) ~= 0) then
 		newX = posX - vel * delta
 		prevDirX = -1
-		prevDirY = 0
 		tryMove(newX, newY)
 	end
 
 	if(band(buttonBitMap, 2) ~= 0) then
 		newX = posX + vel * delta
 		prevDirX = 1
-		prevDirY = 0
 		tryMove(newX, posY)
 	end
 
 	if(band(buttonBitMap, 4) ~= 0) then
 		newY = posY - vel * delta
 		prevDirY = -1
-		prevDirX = 0
 		tryMove(newX, newY)
 	end
 
 	if(band(buttonBitMap, 8) ~= 0) then
 		newY = posY + vel * delta
 		prevDirY = 1
-		prevDirX = 0
 		tryMove(newX, newY)
 	end
 
-	if(band(buttonBitMap, 16) ~= 0) then
+	if(band(buttonBitMap, 16) ~= 0 and attackCooldown <= 0) then
 		attack(userdata, prevDirX, prevDirY, attackRange)
+		attackCooldown = moveReset
 	end
 end
 

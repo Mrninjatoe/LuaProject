@@ -11,6 +11,9 @@ prevDirX = 0
 prevDirY = 0
 
 function update(delta)
+	if(health <= 0) then
+		makeDead(userdata)
+	end
 	local playerX, playerY = getPlayerPos()
 	if(canAttack(playerX, playerY)) then
 		attackPlayer(userdata)
