@@ -5,6 +5,7 @@
 #include "tile.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
+#include "room.hpp"
 
 class World {
 public:
@@ -12,11 +13,9 @@ public:
 	virtual ~World();
 	void update(float delta);
 	void drawEntities(SDL_Renderer* renderer);
-	std::shared_ptr<Entity> getPlayer() { return _entities[0]; }
-	std::vector<std::shared_ptr<Entity>> getEntities() { return _entities; }
-	std::vector<std::shared_ptr<Entity>> getWorld() { return _world; }
+	std::shared_ptr<Entity> getPlayer() { return _currRoom->getEntities()[0]; }
+	std::vector<std::shared_ptr<Entity>> getEntities() { return _currRoom->getEntities(); }
+	std::vector<std::shared_ptr<Entity>> getWorld() { return _currRoom->getTiles(); }
 private:
-	void _createWorld();
-	std::vector<std::shared_ptr<Entity>> _entities;
-	std::vector<std::shared_ptr<Entity>> _world;
+	std::shared_ptr<Room> _currRoom;
 };
