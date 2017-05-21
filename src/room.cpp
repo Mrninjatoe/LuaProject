@@ -69,7 +69,7 @@ void Room::update(float deltaTime) {
 }
 
 int Room::lua_endGame(lua_State* lua) {
-	Engine::getInstance().endGame();
+	Engine::getInstance().endGame("You died!");
 	return 0;
 }
 

@@ -42,7 +42,7 @@ void DoorTile::loadTexture(SDL_Renderer* renderer, const std::string& filePath) 
 }
 
 int DoorTile::lua_loadNewRoom(lua_State* lua) {
-	printf("cockles lamo :)");
+	Engine::getInstance().getWorld()->nextRoom();
 	return 0;
 }
 

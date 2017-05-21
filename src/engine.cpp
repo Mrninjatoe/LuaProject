@@ -57,13 +57,13 @@ void Engine::_initVariables() {
 	_height = 640;
 }
 
-void Engine::endGame() {
+void Engine::endGame(const std::string& text) {
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
 		"Game has ended..",
-		"You died!",
+		text.c_str(),
 		_gWindow
 	);
-	_quit = true;
+	_quitProgram();
 }
 
 void Engine::_initWorld() {

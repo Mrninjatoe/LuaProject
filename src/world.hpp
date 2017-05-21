@@ -14,14 +14,16 @@ public:
 	void update(float delta);
 	void drawEntities(SDL_Renderer* renderer);
 	std::shared_ptr<Entity> getPlayer() { 
-		for (std::shared_ptr<Entity> entity : _currRoom->getEntities()) {
+		for (std::shared_ptr<Entity> entity : _rooms[_currRoom]->getEntities()) {
 			if (std::dynamic_pointer_cast<Player>(entity) != nullptr)
 				return entity;
 		}
 		return nullptr;
 	}
-	std::vector<std::shared_ptr<Entity>> getEntities() { return _currRoom->getEntities(); }
-	std::vector<std::shared_ptr<Entity>> getWorld() { return _currRoom->getTiles(); }
+	std::vector<std::shared_ptr<Entity>> getEntities() { return _rooms[_currRoom]->getEntities(); }
+	std::vector<std::shared_ptr<Entity>> getWorld() { return _rooms[_currRoom]->getTiles(); }
+	void nextRoom();
 private:
-	std::shared_ptr<Room> _currRoom;
+	std::vector<std::shared_ptr<Room>> _rooms;
+	int _currRoom;
 };
