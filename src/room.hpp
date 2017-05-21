@@ -6,7 +6,7 @@
 class Room {
 public:
 	Room(const std::string& file);
-	~Room();
+	virtual ~Room();
 	void update(float deltaTime);
 	void draw(SDL_Renderer* renderer);
 	std::vector<std::shared_ptr<Entity>> getEntities() { return _entities; }
