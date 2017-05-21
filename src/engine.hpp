@@ -18,6 +18,7 @@ public:
 	std::shared_ptr<World> getWorld() { return _world; }
 	void setQuit(bool quit) { _quit = quit; }
 	int run();
+	void endGame();
 
 private:
 	Engine() {};

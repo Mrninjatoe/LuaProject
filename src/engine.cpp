@@ -57,6 +57,15 @@ void Engine::_initVariables() {
 	_height = 640;
 }
 
+void Engine::endGame() {
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+		"Game has ended..",
+		"You died!",
+		_gWindow
+	);
+	_quit = true;
+}
+
 void Engine::_initWorld() {
 	_world = std::make_shared<World>();
 }

@@ -4,6 +4,7 @@
 
 World::World() {
 	_currRoom = std::make_shared<Room>("assets/maps/main.txt");
+	playerDead = false;
 }
 
 World::~World() {

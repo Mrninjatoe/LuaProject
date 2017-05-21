@@ -52,6 +52,8 @@ void Room::update(float deltaTime) {
 	for (std::shared_ptr<Entity> entity : _entities) {
 		entity->update(deltaTime);
 	}
+	if (Engine::getInstance().getWorld()->getPlayer()->isDead())
+		Engine::getInstance().endGame();
 
 	_entities.erase(std::remove_if(_entities.begin(), _entities.end(), [&](const std::shared_ptr<Entity>& e) { return e.get()->isDead(); }), _entities.end());
 }
