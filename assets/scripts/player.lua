@@ -1,6 +1,6 @@
 posX = 0
 posY = 0
-vel = 64
+vel = 256
 userdata = nil
 moveReset = 1
 attackCooldown = 0

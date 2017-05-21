@@ -1,11 +1,18 @@
 #include "engine.hpp"
 #include <SDL2/SDL_image.h>
+#include <cstdlib>
 
 // Each room has a orthographic view with the size of -15 to 15 in x and y direction
 // Each block represents two digits in this space.
 // Player and NPC to be decided...
 
-Engine::~Engine() {}
+Engine::~Engine() {
+	SDL_DestroyRenderer(_gRenderer);
+	SDL_DestroyWindow(_gWindow);
+
+	IMG_Quit();
+	SDL_Quit();
+}
 
 int Engine::run() {
 	_init();
@@ -31,16 +38,7 @@ int Engine::run() {
 		_world->drawEntities(_gRenderer);
 		SDL_RenderPresent(_gRenderer);
 	}
-	_quitProgram();
 	return 0;
-}
-
-void Engine::_quitProgram() {
-	SDL_DestroyRenderer(_gRenderer);
-	SDL_DestroyWindow(_gWindow);
-
-	IMG_Quit();
-	SDL_Quit();
 }
 
 void Engine::_init() {
@@ -58,12 +56,9 @@ void Engine::_initVariables() {
 }
 
 void Engine::endGame(const std::string& text) {
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
-		"Game has ended..",
-		text.c_str(),
-		_gWindow
-	);
-	_quitProgram();
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Game has ended..", text.c_str(), _gWindow);
+	_quit = true;
+	exit(0);
 }
 
 void Engine::_initWorld() {

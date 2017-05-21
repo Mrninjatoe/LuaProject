@@ -8,7 +8,7 @@ class Engine {
 public:
 	static Engine& getInstance() {
 		static Engine instance;
-		
+
 		return instance;
 	}
 
@@ -33,7 +33,7 @@ private:
 	int _height;
 	int _fps;
 
-	bool _quit;
+	bool _quit = false;
 	bool _vsync;
 	std::shared_ptr<World> _world;
 
