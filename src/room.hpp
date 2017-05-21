@@ -5,7 +5,7 @@
 
 class Room {
 public:
-	Room();
+	Room(const std::string& file);
 	~Room();
 	void update(float deltaTime);
 	void draw(SDL_Renderer* renderer);

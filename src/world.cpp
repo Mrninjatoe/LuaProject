@@ -3,11 +3,11 @@
 #include <algorithm>
 
 World::World() {
-	_currRoom = std::make_shared<Room>();
+	_currRoom = std::make_shared<Room>("assets/maps/main.txt");
 }
 
 World::~World() {
-	
+
 }
 
 void World::update(float delta) {
