@@ -8,7 +8,7 @@
 Room::Room(const std::string& file) {
 	FILE* fp = fopen(file.c_str(), "rb");
 
-	char line[20] = {0};
+	char line[21] = {0};
 
 	for (int yy = 0; yy < 20; yy++) {
 		fscanf(fp, "%20s\n", line);

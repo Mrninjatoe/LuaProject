@@ -38,7 +38,6 @@ Enemy::~Enemy() {
 
 void Enemy::update(float deltaTime) {
 	script.getGlobal("update").push(deltaTime).call(1, 0);
-	//printf("%f, %f\n", destination.x, destination.y);
 }
 
 int Enemy::lua_move(lua_State* lua) {
