@@ -1,5 +1,6 @@
 #include "room.hpp"
 #include "tile.hpp"
+#include "doortile.hpp"
 #include "engine.hpp"
 #include <algorithm>
 
@@ -44,7 +45,9 @@ Room::Room(const std::string& file) {
 	
 	_script.doFile("assets/scripts/room.lua").openLibs();
 	_script.push(amountOfEnemies).setGlobal("amountOfEnemies");
+	_script.push(this).setGlobal("userdata");
 	lua_register(_script.getState(), "endGame", lua_endGame);
+	lua_register(_script.getState(), "spawnDoor", lua_spawnDoor);
 }
 
 Room::~Room() {}
@@ -62,11 +65,24 @@ void Room::update(float deltaTime) {
 
 	_script.getGlobal("update").push(deltaTime).call(1, 0);
 	_entities.erase(std::remove_if(_entities.begin(), _entities.end(), [&](const std::shared_ptr<Entity>& e) { return e.get()->isDead(); }), _entities.end());
+	_script.push((int)_entities.size() - 1).setGlobal("amountOfEnemies"); // -1 because of player
 }
 
 int Room::lua_endGame(lua_State* lua) {
 	Engine::getInstance().endGame();
 	return 0;
+}
+
+int Room::lua_spawnDoor(lua_State* lua) {
+	auto room = (Room*)lua_touserdata(lua, 1);
+	room->generateDoor();
+	lua_pushnumber(lua, 19 * 32);
+	lua_pushnumber(lua, 10 * 32);
+	return 2;
+}
+
+void Room::generateDoor() {
+	_tiles.push_back(std::make_shared<DoorTile>(Engine::getInstance().getRenderer(), "assets/textures/knas_block.png", 32, 19 * 32, 10 * 32));
 }
 
 void Room::draw(SDL_Renderer* renderer) {

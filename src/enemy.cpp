@@ -56,16 +56,8 @@ int Enemy::lua_attackPlayer(lua_State* lua) {
 	return 0;
 }
 
-int Enemy::lua_getPlayerPos(lua_State* lua) {
-	auto player = Engine::getInstance().getWorld()->getPlayer();
-	lua_pushnumber(lua, player->getX());
-	lua_pushnumber(lua, player->getY());
-	return 2;
-}
-
 void Enemy::registerLuaFuncs() {
 	lua_register(script.getState(), "move", lua_move);
-	lua_register(script.getState(), "getPlayerPos", lua_getPlayerPos);
 	lua_register(script.getState(), "attackPlayer", lua_attackPlayer);
 }
 

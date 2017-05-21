@@ -23,6 +23,7 @@ public:
 	// Lua functions for all entities
 	static int lua_getEntitiesAround(lua_State* lua);
 	static int lua_makeDead(lua_State* lua);
+	static int lua_getPlayerPos(lua_State* lua);
 protected:
 	SDL_Texture* texture;
 	SDL_Rect source;

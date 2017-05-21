@@ -6,6 +6,7 @@
 Entity::Entity() {
 	lua_register(script.getState(), "getEntitiesAround", lua_getEntitiesAround);
 	lua_register(script.getState(), "makeDead", lua_makeDead);
+	lua_register(script.getState(), "getPlayerPos", lua_getPlayerPos);
 	dead = false;
 }
 
@@ -69,4 +70,11 @@ int Entity::lua_getEntitiesAround(lua_State* lua) {
 		}
 	}
 	return 1;
+}
+
+int Entity::lua_getPlayerPos(lua_State* lua) {
+	auto player = Engine::getInstance().getWorld()->getPlayer();
+	lua_pushnumber(lua, player->getX());
+	lua_pushnumber(lua, player->getY());
+	return 2;
 }

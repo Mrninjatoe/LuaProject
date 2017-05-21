@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\doortile.cpp" />
     <ClCompile Include="src\enemy.cpp" />
     <ClCompile Include="src\engine.cpp" />
     <ClCompile Include="src\entity.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="src\world.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\doortile.hpp" />
     <ClInclude Include="src\enemy.hpp" />
     <ClInclude Include="src\engine.hpp" />
     <ClInclude Include="src\entity.hpp" />
