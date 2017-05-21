@@ -26,7 +26,7 @@ function keyResponse(buttonBitMap, delta)
 	local newY = posY
 	local prevDirX = 0
 	local prevDirY = 0
-	
+
 	if(band(buttonBitMap, 1) ~= 0) then
 		newX = posX - vel * delta
 		prevDirX = -1
@@ -77,7 +77,7 @@ function doesCollide(oldX, oldY, moveX, moveY)
 		end
 		i = i + 2
 	end
-	if((moveX < 0 or moveX >= 640) or (moveY < 0 or moveY >= 608)) then
+	if((moveX < 0 or moveX >= 608) or (moveY < 0 or moveY >= 608)) then
 		return true
 	else
 		return false
