@@ -9,7 +9,7 @@ Room::Room(const std::string& file) {
 	FILE* fp = fopen(file.c_str(), "rb");
 
 	char line[21] = {0};
-
+	int amountOfEnemies = 0;
 	for (int yy = 0; yy < 20; yy++) {
 		fscanf(fp, "%20s\n", line);
 		for (int xx = 0; xx < 20; xx++) {
@@ -30,6 +30,7 @@ Room::Room(const std::string& file) {
 
 			case 'E':
 				_entities.push_back(std::make_shared<Enemy>(Engine::getInstance().getRenderer(), "assets/textures/enemy.png", 32, x, y, 2, 1));
+				amountOfEnemies++;
 				goto default_tile;
 
 			default:
@@ -39,8 +40,11 @@ Room::Room(const std::string& file) {
 			}
 		}
 	}
-
 	fclose(fp);
+	
+	_script.doFile("assets/scripts/room.lua").openLibs();
+	_script.push(amountOfEnemies).setGlobal("amountOfEnemies");
+	lua_register(_script.getState(), "endGame", lua_endGame);
 }
 
 Room::~Room() {}
@@ -51,11 +55,18 @@ void Room::update(float deltaTime) {
 	}
 	for (std::shared_ptr<Entity> entity : _entities) {
 		entity->update(deltaTime);
+		if (std::dynamic_pointer_cast<Player>(entity) != nullptr) {
+			_script.push(entity->isDead()).setGlobal("playerIsDead");
+		}
 	}
-	if (Engine::getInstance().getWorld()->getPlayer()->isDead())
-		Engine::getInstance().endGame();
 
+	_script.getGlobal("update").push(deltaTime).call(1, 0);
 	_entities.erase(std::remove_if(_entities.begin(), _entities.end(), [&](const std::shared_ptr<Entity>& e) { return e.get()->isDead(); }), _entities.end());
+}
+
+int Room::lua_endGame(lua_State* lua) {
+	Engine::getInstance().endGame();
+	return 0;
 }
 
 void Room::draw(SDL_Renderer* renderer) {
