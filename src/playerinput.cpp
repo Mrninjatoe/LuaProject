@@ -10,18 +10,6 @@ PlayerInput::~PlayerInput() {
 }
 
 void PlayerInput::update(Entity* player, float deltaTime) {
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
-		// This quit is a hack.
-		case SDL_QUIT:
-			Engine::getInstance().setQuit(true);
-			break;
-		default:
-			break;
-		}
-	}
-
 	const Uint8* keyMap = SDL_GetKeyboardState(NULL);
 	keys = 0;
 	if (keyMap[SDL_SCANCODE_A] || keyMap[SDL_SCANCODE_LEFT])

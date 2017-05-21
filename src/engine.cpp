@@ -5,14 +5,23 @@
 // Each block represents two digits in this space.
 // Player and NPC to be decided...
 
-Engine::~Engine() {
-	
-}
+Engine::~Engine() {}
 
 int Engine::run() {
 	_init();
 	uint32_t lastTime = SDL_GetTicks();
 	while (!_quit) {
+		SDL_Event event;
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+			case SDL_QUIT:
+				Engine::getInstance().setQuit(true);
+				break;
+			default:
+				break;
+			}
+		}
+
 		uint32_t curTime = SDL_GetTicks();
 		float delta = (curTime - lastTime) / 1000.0f;
 		lastTime = curTime;
@@ -44,8 +53,8 @@ void Engine::_initVariables() {
 	_vsync = true;
 	_quit = false;
 
-	_width	= 640;
-	_height	= 640;
+	_width = 640;
+	_height = 640;
 }
 
 void Engine::_initWorld() {
@@ -56,14 +65,7 @@ void Engine::_initSDL() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 		printf("Failed to intialize SDL, SDL_Error: %s\n", SDL_GetError());
 	else {
-		_gWindow = SDL_CreateWindow(
-			"LuaProject",
-			SDL_WINDOWPOS_UNDEFINED,
-			SDL_WINDOWPOS_UNDEFINED,
-			_width,
-			_height,
-			SDL_WINDOW_SHOWN
-		);
+		_gWindow = SDL_CreateWindow("LuaProject", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _width, _height, SDL_WINDOW_SHOWN);
 
 		if (_gWindow == NULL)
 			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
@@ -79,4 +81,4 @@ void Engine::_initSDL() {
 			}
 		}
 	}
-}	
+}
