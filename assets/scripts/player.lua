@@ -26,7 +26,7 @@ function keyResponse(buttonBitMap, delta)
 	local newY = posY
 	local prevDirX = 0
 	local prevDirY = 0
-	
+
 	if(band(buttonBitMap, 1) ~= 0) then
 		newX = posX - vel * delta
 		prevDirX = -1
