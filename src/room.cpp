@@ -53,14 +53,7 @@ void Room::update(float deltaTime) {
 		entity->update(deltaTime);
 	}
 
-	_entities.erase(std::remove_if(_entities.begin(), _entities.end(),
-																 [&](const std::shared_ptr<Entity>& e) -> bool {
-																	 if (e.get()->isDead())
-																		 return true;
-																	 else
-																		 return false;
-																 }),
-									_entities.end());
+	_entities.erase(std::remove_if(_entities.begin(), _entities.end(), [&](const std::shared_ptr<Entity>& e) { return e.get()->isDead(); }), _entities.end());
 }
 
 void Room::draw(SDL_Renderer* renderer) {
