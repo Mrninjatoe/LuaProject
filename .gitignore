@@ -15,7 +15,6 @@ $RECYCLE.BIN/
 *.msp
 
 #Those i've included
-*vcxproj
 Debug/
 build/
 .vs/
