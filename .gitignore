@@ -64,3 +64,5 @@ compile_commands.json
 objs/
 .reggae
 .vscode/
+imgui.ini
+luaeditor

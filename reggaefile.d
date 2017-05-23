@@ -1,13 +1,14 @@
 import reggae;
-// -Wsuggest-override -Wno-error=suggest-override
-enum CFLAGS = "-std=c++17 -O0 -D_DEBUG -ggdb -Wall -fdiagnostics-color=always -fopenmp -Iinclude";
 
 enum CompileCommand {
-	Compile = "g++ -c " ~ CFLAGS ~ " $in -o $out",
-	Link = "g++ -std=c++17 -O0 -ggdb -Wall -fdiagnostics-color=always -fopenmp -lm -ldl -lSDL2 -lSDL2_image -llua -lGL $in -o $out"
+	Compile = "g++ -c -std=c++17 -O0 -D_DEBUG -ggdb -Wall -fdiagnostics-color=always -fopenmp -Iinclude $in -o $out",
+	Link = "g++ -std=c++17 -O0 -ggdb -Wall -fdiagnostics-color=always -fopenmp -lm -ldl -lSDL2 -lSDL2_image -llua -lGL $in -o $out",
+
+	CompileEditor = "g++ -c -std=c++17 -O0 -D_DEBUG -ggdb -fdiagnostics-color=always -fopenmp $in -o $out",
+	LinkEditor = "g++ -std=c++17 -O0 -ggdb-fdiagnostics-color=always -fopenmp -lm -ldl -lSDL2 -lSDL2_image -lSDL2_ttf -lGL $in -o $out"
 }
 
-Target[] MakeObjects(string src)() {
+Target[] MakeObjects(string src)(CompileCommand compile) {
 	import std.file : dirEntries, SpanMode;
 	import std.process : executeShell;
 	import std.algorithm : map;
@@ -25,14 +26,15 @@ Target[] MakeObjects(string src)() {
 		}
 
 		auto head = exec.output.split(":")[1].replace("\n", " ").split(" ").filter!(s => !s.empty && s != "\\").map!(x => Target(x)).array;
-		objs ~= Target(f ~ ".o", CompileCommand.Compile, [Target(f)], head);
+		objs ~= Target(f ~ ".o", compile, [Target(f)], head);
 	}
 
 	return objs;
 }
 
 Build myBuild() {
-	auto trigonoverthrow = Target("luaproject", CompileCommand.Link, MakeObjects!"src/");
+	auto trigonoverthrow = Target("luaproject", CompileCommand.Link, MakeObjects!("src/")(CompileCommand.Compile));
+	auto editor = Target("luaeditor", CompileCommand.LinkEditor, MakeObjects!("editor/")(CompileCommand.CompileEditor));
 
-	return Build(trigonoverthrow);
+	return Build(trigonoverthrow, editor);
 }
